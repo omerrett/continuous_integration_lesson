@@ -11,6 +11,19 @@ def test_summarises_a_complete_column():
     assert summary["min"] == 1.0
     assert summary["max"] == 3.0
 
+def test_summarises_nan():
+    summary = ci_course.summarise(np.array([np.nan, np.nan]))
+
+    assert summary["n"] == 0
+    assert np.isnan(summary["mean"])
+    assert np.isnan(summary["min"])
+    assert np.isnan(summary["max"])
+
+def test_summarises_1():
+    summary = ci_course.summarise(np.array([np.nan, 1]))
+
+    assert summary["sd"] == 0.0
+
 
 def test_missing_values_are_ignored():
     summary = ci_course.summarise(np.array([1.0, np.nan, 3.0]))
